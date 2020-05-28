@@ -1,8 +1,9 @@
 #include "Actor.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
-int Actor::create()
+void Actor::create()
 {
     char number[12];
     cin.ignore(10, '\n');
@@ -11,10 +12,7 @@ int Actor::create()
     cout << "По батькові: "; cin >> patronymic;
     cout << "Дата народження: "; cin >> dateOfBirth;
     setSex();
-    cout << "Номер телефону: "; cin >> number;
-    
-    if (phoneValidation(number) == 0)
-        return 0;
+    id = setId();
 }
 void Actor::setSex()
 {
@@ -51,11 +49,11 @@ void Actor::getSex()
 }
 void Actor::showData()
 {
+    cout << "id: " << id << endl;
     cout << "Ім'я: " << name << endl;
     cout << "Прізвище: " << surname << endl;
     cout << "По батькові: " << patronymic << endl;
     cout << "Дата народження: " << dateOfBirth << endl;
-    cout << "Телефон: " << phone << endl;
     cout << "Стать: "; getSex(); cout << endl;
 }
 
@@ -68,56 +66,25 @@ int Actor::count()
     return v;
     ifile.close();
 }
-int  Actor::phoneValidation(char number[12])
+
+int Actor::setId()
 {
-    Actor actor;
-    ifstream ifile;
-    ifile.open("Actor.dat", ios::binary | ios::out | ios::in);
-    ifile.seekg(0);
-    for (int i = 0; i < count(); i++)
+    int tempId;
+    string str;
+    fstream idfile;
+    idfile.open("ActorId.txt", fstream::out | fstream::in);
+    while (!idfile.eof())
     {
-        ifile.seekg(i * sizeof(Actor));
-        ifile.read(reinterpret_cast<char*>(&actor), sizeof(Actor));
-        if (0 == strcmp(number, actor.phone))
-        {
-            cout << "ткий номер телефону уже існує";
-            return 0;
-        }
+        getline(idfile, str);
+        tempId = atoi(str.c_str());
     }
-    strcpy_s(phone, number);
+    ++tempId;
+    idfile.close();
+    idfile.open("ActorId.txt", fstream::out | fstream::in);
+    idfile << tempId;
+    idfile.close();
+    return tempId;
 }
-//
-//int Actor::setId()
-//{
-//    ifstream ifile;
-//    ifile.open("Actor.dat", ios::binary | ios::out | ios::in);
-//    Actor actor;
-//    int ok = 0;
-//    idCount = 1;//(int)ifile.tellg() / sizeof(Actor);
-//    //ifile.read(reinterpret_cast<char*>(&actor), sizeof(Actor));
-//    while(ok !=1)
-//    {
-//        ifile.seekg(0);
-//        
-//        for (int i = 0; i <= count() ; i++)
-//        {
-//            ifile.seekg(i * sizeof(Actor));
-//            ifile.read(reinterpret_cast<char*>(&actor), sizeof(Actor));
-//            if (idCount != phone)
-//            {
-//                ok = 1;
-//                return idCount;
-//                //
-//                //break;
-//            }
-//            else
-//                ok = 0;
-//        }
-//            idCount++;
-//    }
-//    ifile.close();
-//}
-//
 void Actor::write()
 {
     ofstream ofile;
@@ -133,7 +100,6 @@ void Actor::read(int p)
     ifile.seekg(0);
     ifile.seekg(p * sizeof(Actor));
     ifile.read((char*)this, sizeof(*this));
-    //idCount = id;
     ifile.close();
 }
 
@@ -195,7 +161,7 @@ int Actor::search(int variant)
             break;
         case 6:
 
-            if (0 == strcmp(str, actor.phone))
+            if (atoi(str)== actor.id)
             {
                 cout << endl;
                 actor.showData();
@@ -212,7 +178,7 @@ void Actor::edit()
 {
     Actor actor;
     char str[40];
-    cout << "Введіть номер телефону для редагування: ";
+    cout << "Введіть id для редагування: ";
     cin >> str;
     ifstream file;
     file.open("Actor.dat", ios::binary | ios::out | ios::in);
@@ -223,7 +189,7 @@ void Actor::edit()
     while (!file.eof())
     {
 
-        if (0 != strcmp(str, actor.phone))
+        if (atoi(str) == actor.id)
         {
             temp.write(reinterpret_cast<char*>(&actor), sizeof(Actor));
         }
@@ -261,7 +227,7 @@ void Actor::deleted()
     while (!file.eof())
     {
 
-        if (0 != strcmp(str, actor.phone))
+        if (atoi(str) == actor.id)
         {
             temp.write(reinterpret_cast<char*>(&actor), sizeof(Actor));
         }

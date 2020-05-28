@@ -14,14 +14,13 @@ private:
 	char patronymic[40];
 	char dateOfBirth[11];
 	Sex sex;
-	char phone[12];
+	int id;
 	
 
 public:
-	int phoneValidation(char number[40]);
 	int search(int);
 	void write();
-	int create();
+	void create();
 	void setSex();
 	void getSex();
 	void showData();
@@ -29,5 +28,6 @@ public:
 	static int count();
 	void read(int);
 	void edit();
+	int setId();
 };
 

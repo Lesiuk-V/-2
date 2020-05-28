@@ -21,7 +21,7 @@ void print_menu() {
     cout << ">";
 }
 
-void printSearchMenu()
+void printSearchActorMenu()
 {
     cout << "Пошук за полем: \n";
     cout << "1. Ім'я" << endl;
@@ -31,6 +31,17 @@ void printSearchMenu()
     cout << "5. Стать(чоловік(0), жінка(1)" << endl;
     cout << "6. id" << endl;
 }
+
+void printSearchPlayMenu()
+{
+    cout << "Пошук за полем: \n";
+    cout << "1. Назва п'єси" << endl;
+    cout << "2. Жанр" << endl;
+    cout << "3. Письменник" << endl;
+    cout << "4. Опис" << endl;
+    cout << "6. id" << endl;
+}
+
 int get_variant(int count) {
     int variant;
     cin >> variant;
@@ -56,11 +67,9 @@ int main()
         switch (variant) {
         case 1:
             do
-            {
+            {   
                 cout << "Введіть дані актора: ";
-                if (actor.create() == 0)
-                    break;
-                
+                actor.create();
                 actor.write();
                 cout << "Продовжити ввід?(т/н)?";
                 cin >> ch;
@@ -83,7 +92,7 @@ int main()
         case 3:
             do
             {
-                printSearchMenu();
+                printSearchActorMenu();
                 variant = get_variant(7);
                 actor.search(variant);
                 break;
@@ -92,25 +101,51 @@ int main()
             break;
             break;
         case 4:
+            //play.setId();
             actor.edit();
             break;
         case 5:
             actor.deleted();
             break;
         case 6:
-
+            do
+            {
+                cout << "Введіть дані п'єси: ";
+                play.create();
+                play.write();
+                cout << "Продовжити ввід?(т/н)?";
+                cin >> ch;
+            } while (ch == 'т');
             break;
         case 7:
           
+            n = Play::count();
+            cout << "У файлі " << n << " п'єс\n";
+            for (int j = 1; j < n + 1; j++)
+            {
+                cout << "\n П'єса " << j << endl;
+                play.read(j - 1);
+                play.showData();
+                cout << endl;
+            }
+            cout << endl;
             break;
         case 8:
             
+            do
+            {
+                printSearchActorMenu();
+                variant = get_variant(7);
+                play.search(variant);
+                break;
+                system("pause");
+            } while (variant != 8);
             break;
         case 9:
-            
+            play.edit();
             break;
         case 10:
-            
+            play.deleted();
             break;
         }
         if (variant != 11 || variant == 't')
