@@ -42,15 +42,31 @@ void printSearchPlayMenu()
     cout << "6. id" << endl;
 }
 
-int get_variant(int count) {
-    int variant;
-    cin >> variant;
-    if (variant > count)
+int get_variant(int max) {
+    double input = -1;
+    bool valid = false;
+    do
     {
-        cerr << "Помилка! Неправильний ввід\n";
-        return 0;
-    }
-    return variant;
+        cin >> input;
+        if (cin.good())
+        {
+            valid = true;
+            if (input > 0 && input < max)
+                return input;
+            else
+            {
+                valid = false;
+                cout << "Помилка вводу. Введіть ще раз" << endl;
+            }
+        }
+        else
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Помилка вводу. Введіть ще раз" << endl;
+        }
+    } while (!valid);
+    return input;
 }
 int main()
 {
@@ -65,7 +81,7 @@ int main()
         char ch;
         variant = get_variant(11);
         switch (variant) {
-        case 1:
+        case 1: 
             do
             {   
                 cout << "Введіть дані актора: ";
@@ -147,8 +163,11 @@ int main()
         case 10:
             play.deleted();
             break;
+        default:
+            cout << "Неправильнний ввід. Спробуйте ще раз";
+            break;
         }
-        if (variant != 11 || variant == 't')
+        if (variant != 11)
             system("pause");
     } while (variant != 11);
     return 0;
