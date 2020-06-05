@@ -29,5 +29,6 @@ public:
 	void read(int);
 	void edit();
 	int setId();
+	int valiidation();
 };
 

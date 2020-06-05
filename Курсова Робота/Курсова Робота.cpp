@@ -1,7 +1,7 @@
 ﻿#include "Play.h"
 #include "Actor.h"
-#include "windows.h"
 #include <iostream>
+
 using namespace std;
 void print_menu() {
     system("cls");
@@ -39,11 +39,11 @@ void printSearchPlayMenu()
     cout << "2. Жанр" << endl;
     cout << "3. Письменник" << endl;
     cout << "4. Опис" << endl;
-    cout << "6. id" << endl;
+    cout << "5. id" << endl;
 }
 
 int get_variant(int max) {
-    double input = -1;
+    int input = -1;
     bool valid = false;
     do
     {
@@ -51,7 +51,7 @@ int get_variant(int max) {
         if (cin.good())
         {
             valid = true;
-            if (input > 0 && input < max)
+            if (input > 0 && input <= max)
                 return input;
             else
             {
@@ -117,7 +117,6 @@ int main()
             break;
             break;
         case 4:
-            //play.setId();
             actor.edit();
             break;
         case 5:
@@ -150,7 +149,7 @@ int main()
             
             do
             {
-                printSearchActorMenu();
+                printSearchPlayMenu();
                 variant = get_variant(7);
                 play.search(variant);
                 break;

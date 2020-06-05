@@ -141,9 +141,6 @@ int Play::search(int variant)
 
 void Play::edit()
 {
-    //ifile.seekg(0);
-    //ifile.seekg(p * sizeof(Play));
-    //ifile.read(reinterpret_cast<char*>(&play), sizeof(Play));
     Play play;
     int str;
     cout << "¬вед≥ть id дл€ редагуванн€: ";
@@ -195,7 +192,7 @@ void Play::deleted()
     while (!file.eof())
     {
 
-        if (str == id)
+        if (str != play.id)
         {
             temp.write(reinterpret_cast<char*>(&play), sizeof(Play));
         }

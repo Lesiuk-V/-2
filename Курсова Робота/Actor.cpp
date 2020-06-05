@@ -14,12 +14,34 @@ void Actor::create()
     setSex();
     id = setId();
 }
+
+int Actor::valiidation()
+{
+    int input = -1;
+    bool valid = false;
+    do
+    {
+        cin >> input;
+        if (cin.good())
+        {
+            valid = true;
+        }
+        else
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Помилка вводу. Введіть ще раз" << endl;
+        }
+    } while (!valid);
+    return input;
+}
+
 void Actor::setSex()
 {
     int s;
     cout << "Стать - чоловік(1), жінка(2)\n";
     for (;;) {
-        cin >> s;
+        s = valiidation();
         if (s != 1 &&
             s != 2) cout << "Неправильний ввід! Спробуйте ще раз\n";
 
@@ -189,7 +211,7 @@ void Actor::edit()
     while (!file.eof())
     {
 
-        if (atoi(str) == actor.id)
+        if (atoi(str) != actor.id)
         {
             temp.write(reinterpret_cast<char*>(&actor), sizeof(Actor));
         }
@@ -216,8 +238,8 @@ void Actor::edit()
 void Actor::deleted()
 {
     Actor actor;
-    char str[40];
-    cout << "Введіть номер телефона для видалення: ";
+    int str;
+    cout << "Введіть id для видалення: ";
     cin >> str;
     ifstream file;
     file.open("Actor.dat", ios::binary | ios::out | ios::in);
@@ -227,7 +249,7 @@ void Actor::deleted()
     while (!file.eof())
     {
 
-        if (atoi(str) == actor.id)
+        if (str != actor.id)
         {
             temp.write(reinterpret_cast<char*>(&actor), sizeof(Actor));
         }
