@@ -25,14 +25,17 @@ int Play::setId()
     return tempId;
 }
 
-void Play::create()
+void Play::create(int id)
 {
     cin.ignore(10, '\n');
     cout << "\nНазва п'єси: "; cin >> name;
     cout << "Жанр: "; cin >> ganre;
     cout << "Письменник: "; cin >> writer;
     cout << "Опис: "; cin >> description;
-    id=setId();
+    if (id != 0)
+        this->id = id;
+    else
+        id=setId();
 }
 
 int Play::count()
@@ -161,7 +164,7 @@ void Play::edit()
 
         else
         {
-            play.create();
+            play.create(play.id);
             temp.write(reinterpret_cast<char*>(&play), sizeof(Play));
         }
         file.read(reinterpret_cast<char*>(&play), sizeof(Play));

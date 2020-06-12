@@ -3,7 +3,7 @@
 #include <fstream>
 #include <string>
 using namespace std;
-void Actor::create()
+void Actor::create(int v)
 {
     char number[12];
     cin.ignore(10, '\n');
@@ -12,7 +12,9 @@ void Actor::create()
     cout << "По батькові: "; cin >> patronymic;
     cout << "Дата народження: "; cin >> dateOfBirth;
     setSex();
-    id = setId();
+    if (v == 0)
+        id = setId();
+    else id = v;
 }
 
 int Actor::valiidation()
@@ -218,7 +220,7 @@ void Actor::edit()
 
         else
         {
-            actor.create();
+            actor.create(actor.id);
             temp.write(reinterpret_cast<char*>(&actor), sizeof(Actor));
         }
         file.read(reinterpret_cast<char*>(&actor), sizeof(Actor));

@@ -20,7 +20,7 @@ private:
 public:
 	int search(int);
 	void write();
-	void create();
+	void create(int);
 	void setSex();
 	void getSex();
 	void showData();

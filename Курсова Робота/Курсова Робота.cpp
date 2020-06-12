@@ -85,7 +85,7 @@ int main()
             do
             {   
                 cout << "Введіть дані актора: ";
-                actor.create();
+                actor.create(0);
                 actor.write();
                 cout << "Продовжити ввід?(т/н)?";
                 cin >> ch;
@@ -126,7 +126,7 @@ int main()
             do
             {
                 cout << "Введіть дані п'єси: ";
-                play.create();
+                play.create(0);
                 play.write();
                 cout << "Продовжити ввід?(т/н)?";
                 cin >> ch;

@@ -11,7 +11,7 @@ private:
 public:
 	int search(int);
 	void write();
-	void create();
+	void create(int);
 	void showData();
 	void deleted();
 	static int count();
